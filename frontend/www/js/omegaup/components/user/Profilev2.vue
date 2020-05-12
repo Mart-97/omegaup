@@ -43,50 +43,30 @@
               <a
                 class="nav-item nav-link active"
                 data-toggle="tab"
-                href="#nav-badges"
-                role="tab"
-                aria-controls="nav-badges"
-                aria-selected="true"
                 v-on:click="selectedTab = 'badges'"
                 >{{ T.wordsBadgesObtained }}</a
               >
               <a
                 class="nav-item nav-link"
                 data-toggle="tab"
-                href="#nav-problems"
-                role="tab"
-                aria-controls="nav-problems"
-                aria-selected="false"
                 v-on:click="selectedTab = 'problems'"
                 >{{ T.wordsProblems }}</a
               >
               <a
                 class="nav-item nav-link"
                 data-toggle="tab"
-                href="#nav-contests"
-                role="tab"
-                aria-controls="nav-contests"
-                aria-selected="false"
                 v-on:click="selectedTab = 'contests'"
                 >{{ T.profileContests }}</a
               >
               <a
                 class="nav-item nav-link"
                 data-toggle="tab"
-                href="#nav-user-info"
-                role="tab"
-                aria-controls="nav-user-info"
-                aria-selected="false"
                 v-on:click="selectedTab = 'data'"
                 >{{ T.wordsPersonalData }}</a
               >
               <a
                 class="nav-item nav-link"
                 data-toggle="tab"
-                href="#nav-charts"
-                role="tab"
-                aria-controls="nav-charts"
-                aria-selected="false"
                 v-on:click="selectedTab = 'charts'"
                 >{{ T.wordsStatistics }}</a
               >
@@ -95,7 +75,7 @@
           <div class="tab-content">
             <div
               class="tab-pane fade show active"
-              role="tabpanel"
+              role="tab"
               aria-labelledby="nav-badges-tab"
             >
               <omegaup-badge-list
@@ -106,8 +86,8 @@
               ></omegaup-badge-list>
             </div>
             <div
-              class="tab-pane fade"
-              role="tabpanel"
+              class="tab-pane fade show active"
+              role="tab"
               aria-labelledby="nav-problems-tab"
               v-if="selectedTab == 'problems'"
             >
@@ -131,8 +111,8 @@
               ></omegaup-grid-paginator>
             </div>
             <div
-              class="tab-pane fade"
-              role="tabpanel"
+              class="tab-pane fade show active"
+              role="tab"
               aria-labelledby="nav-contests-tab"
               v-if="selectedTab == 'contests'"
             >
@@ -156,8 +136,8 @@
               </omegaup-grid-paginator>
             </div>
             <div
-              class="tab-pane fade"
-              role="tabpanel"
+              class="tab-pane fade show active"
+              role="tab"
               aria-labelledby="nav-user-info-tab"
               v-if="selectedTab == 'data'"
             >
@@ -167,8 +147,8 @@
               ></omegaup-user-basicinfo>
             </div>
             <div
-              class="tab-pane fade"
-              role="tabpanel"
+              class="tab-pane fade show active"
+              role="tab"
               aria-labelledby="nav-charts-tab"
               v-if="selectedTab == 'charts'"
             >

@@ -41,17 +41,17 @@
             <div class="col-md-10 card no-right-padding no-left-padding">
                 <div class="card-header">
                     <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-badges-tab" data-toggle="tab" href="#nav-badges" role="tab" aria-controls="nav-badges" aria-selected="true">{{T.wordsBadgesObtained}}</a>
-                            <a class="nav-item nav-link" id="nav-problems-tab" data-toggle="tab" href="#nav-problems" role="tab" aria-controls="nav-problems" aria-selected="false">{{ T.wordsProblems }}</a>
-                            <a class="nav-item nav-link" id="nav-contests-tab" data-toggle="tab" href="#nav-contests" role="tab" aria-controls="nav-contests" aria-selected="false">{{ T.profileContests }}</a>
-                            <a class="nav-item nav-link" id="nav-user-info-tab" data-toggle="tab" href="#nav-user-info" role="tab" aria-controls="nav-user-info" aria-selected="false">{{T.wordsPersonalData}}</a>
-                            <a class="nav-item nav-link" id="nav-charts-tab" data-toggle="tab" href="#nav-charts" role="tab" aria-controls="nav-charts" aria-selected="false">{{T.wordsStatistics}}</a>
+                        <div class="nav nav-tabs" role="tablist">
+                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-badges" role="tab" aria-controls="nav-badges" aria-selected="true" v-on:click="selectedTab = 'badges'">{{T.wordsBadgesObtained}}</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-problems" role="tab" aria-controls="nav-problems" aria-selected="false" v-on:click="selectedTab = 'problems'">{{ T.wordsProblems }}</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-contests" role="tab" aria-controls="nav-contests" aria-selected="false" v-on:click="selectedTab = 'contests'">{{ T.profileContests }}</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-user-info" role="tab" aria-controls="nav-user-info" aria-selected="false" v-on:click="selectedTab = 'data'">{{T.wordsPersonalData}}</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-charts" role="tab" aria-controls="nav-charts" aria-selected="false" v-on:click="selectedTab = 'charts'">{{T.wordsStatistics}}</a>
 
                         </div>
                     </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-badges" role="tabpanel" aria-labelledby="nav-badges-tab">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-badges-tab">
                             <omegaup-badge-list
                                 v-bind:all-badges="profileBadges"
                                 v-bind:show-all-badges-link="true"
@@ -59,7 +59,7 @@
                                 v-if="selectedTab == 'badges'"
                             ></omegaup-badge-list>
                         </div>
-                        <div class="tab-pane fade" id="nav-problems" role="tabpanel" aria-labelledby="nav-problems-tab">
+                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-problems-tab" v-if="selectedTab == 'problems'">
                             <omegaup-grid-paginator
                                 v-bind:columns="3"
                                 v-bind:items="solvedProblems"
@@ -79,7 +79,7 @@
                                 v-bind:title="T.profileCreatedProblems"
                             ></omegaup-grid-paginator>
                         </div>
-                        <div class="tab-pane fade" id="nav-contests" role="tabpanel" aria-labelledby="nav-contests-tab">
+                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-contests-tab" v-if="selectedTab == 'contests'">
                             <omegaup-grid-paginator
                                 v-bind:columns="1"
                                 v-bind:items="contests"
@@ -97,13 +97,13 @@
                                 </template>
                             </omegaup-grid-paginator>
                         </div>
-                        <div class="tab-pane fade" id="nav-user-info" role="tabpanel" aria-labelledby="nav-user-info-tab">
+                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-user-info-tab" v-if="selectedTab == 'data'">
                             <omegaup-user-basicinfo
                                 v-bind:profile="profile"
                                 v-bind:rank="rank"
                             ></omegaup-user-basicinfo>
                         </div>
-                        <div class="tab-pane fade" id="nav-charts" role="tabpanel" aria-labelledby="nav-charts-tab">
+                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-charts-tab" v-if="selectedTab == 'charts'">
                             <omegaup-user-charts
                                 v-bind:data="charts"
                                 v-bind:username="profile.username"
@@ -126,7 +126,7 @@
   grid-auto-rows: 180px;
 }
 a:hover{
-    cursor:pointer;
+  cursor:pointer;
 }
 </style>
 

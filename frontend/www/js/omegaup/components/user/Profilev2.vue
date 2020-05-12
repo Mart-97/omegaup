@@ -1,121 +1,187 @@
 <template>
-    <div class="container-lg" style="margin-top: 30px;">
-        <div class="row">
-            <div class="col-md-2 no-right-padding">
-                <div class="card">
-                    <div class="card-body">
-                    <div class="img-thumbnail rounded-circle bottom-margin">
-                        <img v-bind:src="profile.gravatar_92" />
-                    </div>
-                    <h4 class="card-title text-center" style="font-size: 13px;">
-                        {{ profile.rankinfo.rank &gt; 0 ? `#${profile.rankinfo.rank} - `:
+  <div class="container-lg" style="margin-top: 30px;">
+    <div class="row">
+      <div class="col-md-2 no-right-padding">
+        <div class="card">
+          <div class="card-body">
+            <div class="img-thumbnail rounded-circle bottom-margin">
+              <img v-bind:src="profile.gravatar_92" />
+            </div>
+            <h4 class="card-title text-center" style="font-size: 13px;">
+              {{ profile.rankinfo.rank &gt; 0 ? `#${profile.rankinfo.rank} - `:
                     '' }}
-                        <omegaup-user-username
-                        v-bind:classname="profile.classname"
-                        v-bind:username="profile.username"
-                        ></omegaup-user-username>
+              <omegaup-user-username
+                v-bind:classname="profile.classname"
+                v-bind:username="profile.username"
+              ></omegaup-user-username>
 
-                        <p>{{profile.email}} </p>
-                        <p>{{profile.school}} </p>
-                        <img
-                        class="rounded-circle"
-                        height="20"
-                        v-bind:src="
-                            `/media/flags/${profile.country_id.toLowerCase()}.png`
-                        "
-                        v-bind:title="profile.country_id"
-                        v-if="profile.country_id"
-                        width="25"
-                        />
-
-                    </h4>
-                    <div class="text-center" v-if="profile.email">
-                        <a class="btn btn-primary btn-sm" href="/profile/edit/">{{
-                        T.profileEdit
-                        }}</a>
-                    </div>
-
-                    </div>
-                </div>
+              <p>{{ profile.email }}</p>
+              <p>{{ profile.school }}</p>
+              <img
+                class="rounded-circle"
+                height="20"
+                v-bind:src="
+                  `/media/flags/${profile.country_id.toLowerCase()}.png`
+                "
+                v-bind:title="profile.country_id"
+                v-if="profile.country_id"
+                width="25"
+              />
+            </h4>
+            <div class="text-center" v-if="profile.email">
+              <a class="btn btn-primary btn-sm" href="/profile/edit/">{{
+                T.profileEdit
+              }}</a>
             </div>
-            <div class="col-md-10 card no-right-padding no-left-padding">
-                <div class="card-header">
-                    <nav>
-                        <div class="nav nav-tabs" role="tablist">
-                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-badges" role="tab" aria-controls="nav-badges" aria-selected="true" v-on:click="selectedTab = 'badges'">{{T.wordsBadgesObtained}}</a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-problems" role="tab" aria-controls="nav-problems" aria-selected="false" v-on:click="selectedTab = 'problems'">{{ T.wordsProblems }}</a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-contests" role="tab" aria-controls="nav-contests" aria-selected="false" v-on:click="selectedTab = 'contests'">{{ T.profileContests }}</a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-user-info" role="tab" aria-controls="nav-user-info" aria-selected="false" v-on:click="selectedTab = 'data'">{{T.wordsPersonalData}}</a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-charts" role="tab" aria-controls="nav-charts" aria-selected="false" v-on:click="selectedTab = 'charts'">{{T.wordsStatistics}}</a>
-
-                        </div>
-                    </nav>
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-badges-tab">
-                            <omegaup-badge-list
-                                v-bind:all-badges="profileBadges"
-                                v-bind:show-all-badges-link="true"
-                                v-bind:visitor-badges="visitorBadges"
-                                v-if="selectedTab == 'badges'"
-                            ></omegaup-badge-list>
-                        </div>
-                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-problems-tab" v-if="selectedTab == 'problems'">
-                            <omegaup-grid-paginator
-                                v-bind:columns="3"
-                                v-bind:items="solvedProblems"
-                                v-bind:items-per-page="30"
-                                v-bind:title="T.profileSolvedProblems"
-                            ></omegaup-grid-paginator>
-                            <omegaup-grid-paginator
-                                v-bind:columns="3"
-                                v-bind:items="unsolvedProblems"
-                                v-bind:items-per-page="30"
-                                v-bind:title="T.profileUnsolvedProblems"
-                            ></omegaup-grid-paginator>
-                            <omegaup-grid-paginator
-                                v-bind:columns="3"
-                                v-bind:items="createdProblems"
-                                v-bind:items-per-page="30"
-                                v-bind:title="T.profileCreatedProblems"
-                            ></omegaup-grid-paginator>
-                        </div>
-                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-contests-tab" v-if="selectedTab == 'contests'">
-                            <omegaup-grid-paginator
-                                v-bind:columns="1"
-                                v-bind:items="contests"
-                                v-bind:items-per-page="15"
-                                v-bind:title="T.profileContests"
-                                v-if="selectedTab == 'profileContests'"
-                            >
-                                <template slot="table-header">
-                                    <thead>
-                                        <tr>
-                                        <th>{{ T.profileContestsTableContest }}</th>
-                                        <th class="numericColumn">{{ T.profileContestsTablePlace }}</th>
-                                        </tr>
-                                    </thead>
-                                </template>
-                            </omegaup-grid-paginator>
-                        </div>
-                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-user-info-tab" v-if="selectedTab == 'data'">
-                            <omegaup-user-basicinfo
-                                v-bind:profile="profile"
-                                v-bind:rank="rank"
-                            ></omegaup-user-basicinfo>
-                        </div>
-                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-charts-tab" v-if="selectedTab == 'charts'">
-                            <omegaup-user-charts
-                                v-bind:data="charts"
-                                v-bind:username="profile.username"
-                            ></omegaup-user-charts>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
+      <div class="col-md-10 card no-right-padding no-left-padding">
+        <div class="card-header">
+          <nav>
+            <div class="nav nav-tabs" role="tablist">
+              <a
+                class="nav-item nav-link active"
+                data-toggle="tab"
+                href="#nav-badges"
+                role="tab"
+                aria-controls="nav-badges"
+                aria-selected="true"
+                v-on:click="selectedTab = 'badges'"
+                >{{ T.wordsBadgesObtained }}</a
+              >
+              <a
+                class="nav-item nav-link"
+                data-toggle="tab"
+                href="#nav-problems"
+                role="tab"
+                aria-controls="nav-problems"
+                aria-selected="false"
+                v-on:click="selectedTab = 'problems'"
+                >{{ T.wordsProblems }}</a
+              >
+              <a
+                class="nav-item nav-link"
+                data-toggle="tab"
+                href="#nav-contests"
+                role="tab"
+                aria-controls="nav-contests"
+                aria-selected="false"
+                v-on:click="selectedTab = 'contests'"
+                >{{ T.profileContests }}</a
+              >
+              <a
+                class="nav-item nav-link"
+                data-toggle="tab"
+                href="#nav-user-info"
+                role="tab"
+                aria-controls="nav-user-info"
+                aria-selected="false"
+                v-on:click="selectedTab = 'data'"
+                >{{ T.wordsPersonalData }}</a
+              >
+              <a
+                class="nav-item nav-link"
+                data-toggle="tab"
+                href="#nav-charts"
+                role="tab"
+                aria-controls="nav-charts"
+                aria-selected="false"
+                v-on:click="selectedTab = 'charts'"
+                >{{ T.wordsStatistics }}</a
+              >
+            </div>
+          </nav>
+          <div class="tab-content">
+            <div
+              class="tab-pane fade show active"
+              role="tabpanel"
+              aria-labelledby="nav-badges-tab"
+            >
+              <omegaup-badge-list
+                v-bind:all-badges="profileBadges"
+                v-bind:show-all-badges-link="true"
+                v-bind:visitor-badges="visitorBadges"
+                v-if="selectedTab == 'badges'"
+              ></omegaup-badge-list>
+            </div>
+            <div
+              class="tab-pane fade"
+              role="tabpanel"
+              aria-labelledby="nav-problems-tab"
+              v-if="selectedTab == 'problems'"
+            >
+              <omegaup-grid-paginator
+                v-bind:columns="3"
+                v-bind:items="solvedProblems"
+                v-bind:items-per-page="30"
+                v-bind:title="T.profileSolvedProblems"
+              ></omegaup-grid-paginator>
+              <omegaup-grid-paginator
+                v-bind:columns="3"
+                v-bind:items="unsolvedProblems"
+                v-bind:items-per-page="30"
+                v-bind:title="T.profileUnsolvedProblems"
+              ></omegaup-grid-paginator>
+              <omegaup-grid-paginator
+                v-bind:columns="3"
+                v-bind:items="createdProblems"
+                v-bind:items-per-page="30"
+                v-bind:title="T.profileCreatedProblems"
+              ></omegaup-grid-paginator>
+            </div>
+            <div
+              class="tab-pane fade"
+              role="tabpanel"
+              aria-labelledby="nav-contests-tab"
+              v-if="selectedTab == 'contests'"
+            >
+              <omegaup-grid-paginator
+                v-bind:columns="1"
+                v-bind:items="contests"
+                v-bind:items-per-page="15"
+                v-bind:title="T.profileContests"
+                v-if="selectedTab == 'profileContests'"
+              >
+                <template slot="table-header">
+                  <thead>
+                    <tr>
+                      <th>{{ T.profileContestsTableContest }}</th>
+                      <th class="numericColumn">
+                        {{ T.profileContestsTablePlace }}
+                      </th>
+                    </tr>
+                  </thead>
+                </template>
+              </omegaup-grid-paginator>
+            </div>
+            <div
+              class="tab-pane fade"
+              role="tabpanel"
+              aria-labelledby="nav-user-info-tab"
+              v-if="selectedTab == 'data'"
+            >
+              <omegaup-user-basicinfo
+                v-bind:profile="profile"
+                v-bind:rank="rank"
+              ></omegaup-user-basicinfo>
+            </div>
+            <div
+              class="tab-pane fade"
+              role="tabpanel"
+              aria-labelledby="nav-charts-tab"
+              v-if="selectedTab == 'charts'"
+            >
+              <omegaup-user-charts
+                v-bind:data="charts"
+                v-bind:username="profile.username"
+              ></omegaup-user-charts>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <style>
@@ -125,8 +191,8 @@
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   grid-auto-rows: 180px;
 }
-a:hover{
-  cursor:pointer;
+a:hover {
+  cursor: pointer;
 }
 </style>
 
